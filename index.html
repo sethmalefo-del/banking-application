@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Real Savings System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --green-50:  #EAF3DE; 
+      --green-100: #C0DD97;   
+      --green-200: #97C459;
+      --green-600: #3B6D11;
+      --green-800: #27500A;
+      --teal-50:   #E1F5EE;
+      --teal-600:  #0F6E56;
+      --teal-800:  #085041;
+      --red-50:    #FCEBEB;
+      --red-600:   #A32D2D;
+      --amber-50:  #FAEEDA;
+      --amber-600: #ec0c1b;
+      --gray-100:  #D3D1C7;
+      --gray-200:  #B4B2A9;
+      --gray-600:  #5F5E5A;
+      --gray-800:  #444441;
+    }
+
+/* Base styles and layout */
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #2be6ae;
+      background-color:darkkhaki;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .account-card {
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid var(--gray-100);
+      padding: 2rem;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.75rem;
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--green-50);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-icon svg { width: 22px; height: 22px; stroke: var(--green-600); }
+
+    .card-header h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: #1a1a1a;
+    }
+
+    .card-header p {
+      font-size: 0.8rem;
+      color: var(--gray-600);
+      margin-top: 2px;
+    }
+
+    .balance-display {
+      background: var(--green-600);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .balance-display::before {
+      content: '';
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 120px; height: 120px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50%;
+    }
+
+    .balance-label {
+      font-size: 0.75rem;
+      color: var(--green-100);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .balance-amount {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.4rem;
+      color: #c9dd14;
+      line-height: 1;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--green-50);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+    }
+
+    .stat-label { font-size: 0.72rem; color: var(--green-600); margin-bottom: 4px; }
+    .stat-value { font-size: 1rem; font-weight: 600; color: var(--green-800); }
+
+    .divider {
+      height: 1px;
+      background: var(--gray-100);
+      margin-bottom: 1.25rem;
+    }
+
+    .actions label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      margin-bottom: 6px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 0.75rem;
+    }
+
+    #amount-input {
+      flex: 1;
+      border: 1.5px solid var(--gray-100);
+      border-radius: 10px;
+      padding: 0.65rem 0.9rem;
+      font-size: 0.95rem;
+      font-family: 'DM Sans', sans-serif;
+      color: #1a1a1a;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    #amount-input:focus { border-color: var(--green-200); }
+
+    .btn-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 0.75rem;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 0.65rem 0.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+
+    button:active { transform: scale(0.97); }
+
+    .btn-deposit {
+      background: var(--green-600);
+      color: #fff;
+    }
+
+    .btn-withdraw {
+      background: var(--red-50);
+      color: var(--red-600);
+      border: 1.5px solid #f7c1c1;
+    }
+
+    .btn-interest {
+      grid-column: 1 / -1;
+      background: var(--amber-50);
+      color: var(--amber-600);
+      border: 1.5px solid #fac775;
+    }
+
+    button:hover { opacity: 0.88; }
+
+    #message-log {
+      min-height: 36px;
+      font-size: 0.82rem;
+      border-radius: 8px;
+      padding: 0.6rem 0.8rem;
+      text-align: center;
+      display: none;
+    }
+
+    #message-log.success {
+      display: block;
+      background: var(--teal-50);
+      color: var(--teal-800);
+    }
+
+    #message-log.error {
+      display: block;
+      background: var(--red-50);
+      color: var(--red-600);
+    }
+
+    #message-log.info {
+      display: block;
+      background: var(--amber-50);
+      color: var(--amber-600);
+    }
+
+    @media (max-width: 420px) {
+      .account-card { padding: 1.25rem; }
+      .balance-amount { font-size: 2rem; }
+      .btn-group { grid-template-columns: 1fr; }
+      .btn-interest { grid-column: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="account-card">
+
+  <div class="card-header">
+    <div class="card-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/>
+        <circle cx="12" cy="13" r="2"/>
+        <path d="M6 9V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/>
+      </svg>
+    </div>
+    <div>
+      <h2>Savings Account</h2>
+      <p>Account Holder: <strong id="holder-name">Seth Malefo</strong></p>
+    </div>
+  </div>
+
+  <div class="balance-display">
+    <div class="balance-label">Current Balance</div>
+    <div class="balance-amount" id="balance">R1,000.00</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Total Deposited</div>
+      <div class="stat-value" id="total-deposited">R0.00</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Withdrawn</div>
+      <div class="stat-value" id="total-withdrawn">R0.00</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="actions">
+    <label for="amount-input">Enter amount</label>
+    <div class="input-row">
+      <input type="number" id="amount-input" placeholder="0.00" min="0" step="0.01" />
+    </div>
+    <div class="btn-group">
+      <button class="btn-deposit" id="btn-deposit">Deposit</button>
+      <button class="btn-withdraw" id="btn-withdraw">Withdraw</button>
+      <button class="btn-interest" id="btn-interest">Apply 5% Interest</button>
+    </div>
+  </div>
+
+  <p id="message-log"></p>
+
+</div>
+
+<script>
+  // Initial state of the account 
+  let balance = 1000;
+  let totalDeposited = 0;
+  let totalWithdrawn = 0;
+
+  // DOM elements
+  const balanceEl = document.getElementById('balance');
+  const totalDepositedEl = document.getElementById('total-deposited');
+  const totalWithdrawnEl = document.getElementById('total-withdrawn');
+  const msgEl = document.getElementById('message-log');
+  const amountInput = document.getElementById('amount-input');
+
+  function fmt(n) {
+    return 'R' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  // Update the UI with the current account state
+  function updateUI() {
+    balanceEl.textContent = fmt(balance);
+    totalDepositedEl.textContent = fmt(totalDeposited);
+    totalWithdrawnEl.textContent = fmt(totalWithdrawn);
+  }
+
+  // Show a temporary message to the user
+  function showMessage(text, type) {
+    msgEl.textContent = text;
+    msgEl.className = type;
+    clearTimeout(msgEl._timer);
+    msgEl._timer = setTimeout(() => {
+      msgEl.className = '';
+      msgEl.textContent = '';
+    }, 3500);
+  }
+
+  // Validate and get the amount from the input
+  function getAmount() {
+    const val = parseFloat(amountInput.value);
+    if (isNaN(val) || val <= 0) {
+      showMessage('Please enter a valid amount greater than zero.', 'error');
+      return null;
+    }
+    return val;
+  }
+
+  // Event handlers for the buttons
+  function handleDeposit() {
+    const amount = getAmount();
+    if (amount === null) return;
+    balance += amount;
+    totalDeposited += amount;
+    updateUI();
+    showMessage(`Deposited ${fmt(amount)} successfully.`, 'success');
+    amountInput.value = '';
+  }
+
+  // Handle withdrawal with validation for sufficient funds
+  function handleWithdrawal() {
+    const amount = getAmount();
+    if (amount === null) return;
+    if (amount > balance) {
+      showMessage('Insufficient funds for this withdrawal.', 'error');
+      return;
+    }
+    balance -= amount;
+    totalWithdrawn += amount;
+    updateUI();
+    showMessage(`Withdrew ${fmt(amount)} successfully.`, 'success');
+    amountInput.value = '';
+  }
+
+  // Apply 5% interest to the current balance
+  function handleInterest() {
+    const interest = balance * 0.05;
+    balance += interest;
+    totalDeposited += interest;
+    updateUI();
+    showMessage(`5% interest applied — ${fmt(interest)} added.`, 'info');
+  }
+
+  // Attach event listeners to the buttons
+  document.getElementById('btn-deposit').addEventListener('click', handleDeposit);
+  document.getElementById('btn-withdraw').addEventListener('click', handleWithdrawal);
+  document.getElementById('btn-interest').addEventListener('click', handleInterest);
+</script>
+
+</body>
+</html>
