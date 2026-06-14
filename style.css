@@ -1,0 +1,51 @@
+body{
+    font-family: Arial, sans-serif;
+    background-color: antiquewhite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+    
+.account-card{
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 350px;
+}
+
+.balance-display{
+    font-size: small;
+    font-display: bold;
+    color: #4b7aaa;
+    margin: 20px;
+    background-color: #fff1de;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.action{
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+    
+}
+
+.actions button:hover {
+    opacity: 0.9;
+}
+    
+/* Different colors for each button */
+button:nth-of-type(1) {background-color:  #2ecc71; color: white}
+button:nth-of-type(2) {background-color:  #e74c3c; color: white}
+button:nth-of-type(3) {background-color:  #3498db; color: white}
+
+
